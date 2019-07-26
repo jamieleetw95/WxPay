@@ -16,12 +16,15 @@ namespace WxPayAPI.lib
         * APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置），请妥善保管，避免密钥泄露
         */
 
+        //TODO:掃碼支付必要設定
         public string GetAppID(){
             return "";
         }
+        //TODO:掃碼支付必要設定
         public string GetMchID(){
             return "";
         }
+        //TODO:掃碼支付必要設定
         public string GetKey(){
             return "";
         }
