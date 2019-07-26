@@ -61,13 +61,13 @@
 <body runat="server">
 	<div align="center">
         <ul>
-            <li style="background-color:#00CD00"><a href="http://paysdk.weixin.qq.com/example/ProductPage.aspx">JSAPI支付</a></li>
-            <li style="background-color:#00CD00"><a href="http://paysdk.weixin.qq.com/example/MicroPayPage.aspx">刷卡支付</a></li>
-            <li style="background-color:#00CD00"><a href="http://paysdk.weixin.qq.com/example/NativePayPage.aspx">扫码支付</a></li>
-            <li style="background-color:#00CD00"><a href="/example/OrderQueryPage.aspx">订单查询</a></li>
-            <li style="background-color:#00CD00"><a href="http://paysdk.weixin.qq.com/example/RefundPage.aspx">订单退款</a></li>
-            <li style="background-color:#00CD00"><a href="http://paysdk.weixin.qq.com/example/RefundQueryPage.aspx">退款查询</a></li>
-            <li style="background-color:#00CD00"><a href="http://paysdk.weixin.qq.com/example/DownloadBillPage.aspx">下载账单</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/ProductPage.aspx">JSAPI支付</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/MicroPayPage.aspx">刷卡支付</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/NativePayPage.aspx">扫码支付</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/OrderQueryPage.aspx">订单查询</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/RefundPage.aspx">订单退款</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/RefundQueryPage.aspx">退款查询</a></li>
+            <li style="background-color:#00CD00"><a href="/WxPay/example/DownloadBillPage.aspx">下载账单</a></li>
         </ul>
 	</div>
 </body>
