@@ -52,6 +52,7 @@ namespace WxPayAPI.lib
         //=======【支付结果通知url】===================================== 
         /* 支付结果通知回调url，用于商户接收支付结果
         */
+        //TODO:掃碼支付必要設定
         public string GetNotifyUrl(){
             return "";
         }
