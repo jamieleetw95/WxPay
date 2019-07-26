@@ -1,4 +1,4 @@
-# WxPay 微信支付 SDK（C# 掃碼支付 Demo Bug正版）
+# WxPay 微信支付 SDK（C# 掃碼支付 Demo Bug 修正版）
 
 原生 SDK 無法直接編譯，所以我把碰到的 Bug 跟解法，都記錄起來，<br>
 想自己用原生 SDK DEMO 開始著手的朋友，可以直接參考歷史紀錄！<br>
