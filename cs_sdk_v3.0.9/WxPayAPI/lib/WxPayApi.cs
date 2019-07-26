@@ -22,7 +22,7 @@ namespace WxPayAPI
         */
         public static WxPayData Micropay(WxPayData inputObj, int timeOut = 10)
         {
-            string url = "https://api.mch.weixin.qq.com/pay/micropay";
+            string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/micropay";
             //检测必填参数
             if (!inputObj.IsSet("body"))
             {
@@ -78,7 +78,7 @@ namespace WxPayAPI
         */
         public static WxPayData OrderQuery(WxPayData inputObj, int timeOut = 6)
         {
-            string url = "https://api.mch.weixin.qq.com/pay/orderquery";
+            string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/orderquery";
             //检测必填参数
             if (!inputObj.IsSet("out_trade_no") && !inputObj.IsSet("transaction_id"))
             {
@@ -123,7 +123,7 @@ namespace WxPayAPI
         */
         public static WxPayData Reverse(WxPayData inputObj, int timeOut = 6)
         {
-            string url = "https://api.mch.weixin.qq.com/secapi/pay/reverse";
+            string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/reverse";
             //检测必填参数
             if (!inputObj.IsSet("out_trade_no") && !inputObj.IsSet("transaction_id"))
             {
@@ -167,7 +167,7 @@ namespace WxPayAPI
         */
         public static WxPayData Refund(WxPayData inputObj, int timeOut = 6)
         {
-            string url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
+            string url = "https://api.mch.weixin.qq.com/secapi/sandboxnew/pay/refund";
             //检测必填参数
             if (!inputObj.IsSet("out_trade_no") && !inputObj.IsSet("transaction_id"))
             {
@@ -229,7 +229,7 @@ namespace WxPayAPI
 	    */
 	    public static WxPayData RefundQuery(WxPayData inputObj, int timeOut = 6)
 	    {
-		    string url = "https://api.mch.weixin.qq.com/pay/refundquery";
+		    string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/refundquery";
 		    //检测必填参数
 		    if(!inputObj.IsSet("out_refund_no") && !inputObj.IsSet("out_trade_no") &&
 			    !inputObj.IsSet("transaction_id") && !inputObj.IsSet("refund_id"))
@@ -273,7 +273,7 @@ namespace WxPayAPI
         */
         public static WxPayData DownloadBill(WxPayData inputObj, int timeOut = 6)
         {
-            string url = "https://api.mch.weixin.qq.com/pay/downloadbill";
+            string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/downloadbill";
             //检测必填参数
             if (!inputObj.IsSet("bill_date"))
             {
@@ -359,7 +359,7 @@ namespace WxPayAPI
         */
         public static WxPayData UnifiedOrder(WxPayData inputObj, int timeOut = 6)
         {
-            string url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder";
             //检测必填参数
             if (!inputObj.IsSet("out_trade_no"))
             {
@@ -432,7 +432,7 @@ namespace WxPayAPI
 	    */
 	    public static WxPayData CloseOrder(WxPayData inputObj, int timeOut = 6)
 	    {
-		    string url = "https://api.mch.weixin.qq.com/pay/closeorder";
+		    string url = "https://api.mch.weixin.qq.com/sandboxnew/pay/closeorder";
 		    //检测必填参数
 		    if(!inputObj.IsSet("out_trade_no"))
             {
