@@ -15,17 +15,20 @@ namespace WxPayAPI
 {
     public partial class NativePayPage : System.Web.UI.Page
     {
+        public string OrderId;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Log.Info(this.GetType().ToString(), "page load");
 
             NativePay nativePay = new NativePay();
+            OrderId = WxPayApi.GenerateOutTradeNo();
 
             //生成扫码支付模式一url
             string url1 = nativePay.GetPrePayUrl("123456789");
 
             //生成扫码支付模式二url
-            string url2 = nativePay.GetPayUrl("123456789");
+            string url2 = nativePay.GetPayUrl("123456789", OrderId);
 
             //将url生成二维码图片
             Image1.ImageUrl = "MakeQRCode.aspx?data=" + HttpUtility.UrlEncode(url1);

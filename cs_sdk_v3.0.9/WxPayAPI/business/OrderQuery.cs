@@ -26,7 +26,7 @@ namespace WxPayAPI
                 data.SetValue("out_trade_no", out_trade_no);
             }
 
-            WxPayData result = WxPayApi.OrderQuery(data);//提交订单查询请求给API，接收返回数据
+            WxPayData result = WxPayApi.OrderQuery(data, 30);//提交订单查询请求给API，接收返回数据
 
             Log.Info("OrderQuery", "OrderQuery process complete, result : " + result.ToXml());
             return result.ToPrintStr();

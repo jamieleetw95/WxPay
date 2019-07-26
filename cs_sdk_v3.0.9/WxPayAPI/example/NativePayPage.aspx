@@ -15,6 +15,6 @@
 	<br/><br/><br/>
 	<div style="margin-left: 10px;color:#00CD00;font-size:30px;font-weight: bolder;">扫码支付模式二</div><br/>
 	<asp:Image ID="Image2" runat="server" style="width:200px;height:200px;"/>
-	
+	<div style="margin-left: 10px;color:#00CD00;font-size:30px;font-weight: bolder;">OrderId: <%=OrderId%></div>
 </body>
 </html>

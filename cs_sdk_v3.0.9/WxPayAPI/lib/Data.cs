@@ -24,8 +24,8 @@ namespace WxPayAPI
     /// </summary>
     public class WxPayData
     {
-        public  const string SIGN_TYPE_MD5 = "MD5";
-        public  const string SIGN_TYPE_HMAC_SHA256 = "HMAC-SHA256";
+        public const string SIGN_TYPE_MD5 = "MD5";
+        public const string SIGN_TYPE_HMAC_SHA256 = "HMAC-SHA256";
         public WxPayData()
         {
 
@@ -39,7 +39,7 @@ namespace WxPayAPI
         * @param key 字段名
          * @param value 字段值
         */
-        public void SetValue(string key, object value)
+        public void SetValue( string key, object value )
         {
             m_values[key] = value;
         }
@@ -49,7 +49,7 @@ namespace WxPayAPI
         * @param key 字段名
          * @return key对应的字段值
         */
-        public object GetValue(string key)
+        public object GetValue( string key )
         {
             object o = null;
             m_values.TryGetValue(key, out o);
@@ -61,11 +61,11 @@ namespace WxPayAPI
          * @param key 字段名
          * @return 若字段key已被设置，则返回true，否则返回false
          */
-        public bool IsSet(string key)
+        public bool IsSet( string key )
         {
             object o = null;
             m_values.TryGetValue(key, out o);
-            if (null != o)
+            if( null != o )
                 return true;
             else
                 return false;
@@ -79,27 +79,27 @@ namespace WxPayAPI
         public string ToXml()
         {
             //数据为空时不能转化为xml格式
-            if (0 == m_values.Count)
+            if( 0 == m_values.Count )
             {
                 Log.Error(this.GetType().ToString(), "WxPayData数据为空!");
                 throw new WxPayException("WxPayData数据为空!");
             }
 
             string xml = "<xml>";
-            foreach (KeyValuePair<string, object> pair in m_values)
+            foreach( KeyValuePair<string, object> pair in m_values )
             {
                 //字段值不能为null，会影响后续流程
-                if (pair.Value == null)
+                if( pair.Value == null )
                 {
                     Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
                     throw new WxPayException("WxPayData内部含有值为null的字段!");
                 }
 
-                if (pair.Value.GetType() == typeof(int))
+                if( pair.Value.GetType() == typeof(int) )
                 {
                     xml += "<" + pair.Key + ">" + pair.Value + "</" + pair.Key + ">";
                 }
-                else if (pair.Value.GetType() == typeof(string))
+                else if( pair.Value.GetType() == typeof(string) )
                 {
                     xml += "<" + pair.Key + ">" + "<![CDATA[" + pair.Value + "]]></" + pair.Key + ">";
                 }
@@ -119,35 +119,37 @@ namespace WxPayAPI
         * @return 经转换得到的Dictionary
         * @throws WxPayException
         */
-        public SortedDictionary<string, object> FromXml(string xml)
+        public SortedDictionary<string, object> FromXml( string xml )
         {
-            if (string.IsNullOrEmpty(xml))
+            if( string.IsNullOrEmpty(xml) )
             {
                 Log.Error(this.GetType().ToString(), "将空的xml串转换为WxPayData不合法!");
                 throw new WxPayException("将空的xml串转换为WxPayData不合法!");
             }
 
-			
+
             SafeXmlDocument xmlDoc = new SafeXmlDocument();
             xmlDoc.LoadXml(xml);
             XmlNode xmlNode = xmlDoc.FirstChild;//获取到根节点<xml>
             XmlNodeList nodes = xmlNode.ChildNodes;
-            foreach (XmlNode xn in nodes)
+            foreach( XmlNode xn in nodes )
             {
                 XmlElement xe = (XmlElement)xn;
                 m_values[xe.Name] = xe.InnerText;//获取xml的键值对到WxPayData内部的数据中
             }
-			
+
             try
             {
-				//2015-06-29 错误是没有签名
-				if(m_values["return_code"] != "SUCCESS")
-				{
-					return m_values;
-				}
+                object code;
+                //2015-06-29 错误是没有签名
+                //有時候會回"公益404"，會變成「指定的索引鍵不在字典中」
+                if( m_values["return_code"] != "SUCCESS" )
+                {
+                    return m_values;
+                }
                 CheckSign();//验证签名,不通过会抛异常
             }
-            catch(WxPayException ex)
+            catch( WxPayException ex )
             {
                 throw new WxPayException(ex.Message);
             }
@@ -162,15 +164,15 @@ namespace WxPayAPI
         public string ToUrl()
         {
             string buff = "";
-            foreach (KeyValuePair<string, object> pair in m_values)
+            foreach( KeyValuePair<string, object> pair in m_values )
             {
-                if (pair.Value == null)
+                if( pair.Value == null )
                 {
                     Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
                     throw new WxPayException("WxPayData内部含有值为null的字段!");
                 }
 
-                if (pair.Key != "sign" && pair.Value.ToString() != "")
+                if( pair.Key != "sign" && pair.Value.ToString() != "" )
                 {
                     buff += pair.Key + "=" + pair.Value + "&";
                 }
@@ -197,9 +199,9 @@ namespace WxPayAPI
         public string ToPrintStr()
         {
             string str = "";
-            foreach (KeyValuePair<string, object> pair in m_values)
+            foreach( KeyValuePair<string, object> pair in m_values )
             {
-                if (pair.Value == null)
+                if( pair.Value == null )
                 {
                     Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
                     throw new WxPayException("WxPayData内部含有值为null的字段!");
@@ -218,38 +220,34 @@ namespace WxPayAPI
         * @生成签名，详见签名生成算法
         * @return 签名, sign字段不参加签名
         */
-        public string MakeSign(string signType){
+        public string MakeSign( string signType = SIGN_TYPE_MD5, string sandboxKey = null )
+        {
+            string apiKey = sandboxKey == null ? WxPayConfig.GetConfig().GetKey() : sandboxKey;
+
             //转url格式
             string str = ToUrl();
             //在string后加入API KEY
-            str += "&key=" + WxPayConfig.GetConfig().GetKey();
-            if (signType == SIGN_TYPE_MD5)
+            str += "&key=" + apiKey;
+            if( signType == SIGN_TYPE_MD5 )
             {
                 var md5 = MD5.Create();
                 var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
                 var sb = new StringBuilder();
-                foreach (byte b in bs)
+                foreach( byte b in bs )
                 {
                     sb.Append(b.ToString("x2"));
                 }
                 //所有字符转为大写
                 return sb.ToString().ToUpper();
             }
-            else if(signType==SIGN_TYPE_HMAC_SHA256)
+            else if( signType == SIGN_TYPE_HMAC_SHA256 )
             {
-                return CalcHMACSHA256Hash(str, WxPayConfig.GetConfig().GetKey());
-            }else{
+                return CalcHMACSHA256Hash(str, apiKey);
+            }
+            else
+            {
                 throw new WxPayException("sign_type 不合法");
             }
-        }
-
-        /**
-        * @生成签名，详见签名生成算法
-        * @return 签名, sign字段不参加签名 SHA256
-        */
-        public string MakeSign()
-        {
-            return MakeSign(SIGN_TYPE_HMAC_SHA256);
         }
 
 
@@ -259,16 +257,16 @@ namespace WxPayAPI
         * 检测签名是否正确
         * 正确返回true，错误抛异常
         */
-        public bool CheckSign(string signType)
+        public bool CheckSign( string signType )
         {
             //如果没有设置签名，则跳过检测
-            if (!IsSet("sign"))
+            if( !IsSet("sign") )
             {
                 Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
                 throw new WxPayException("WxPayData签名存在但不合法!");
             }
             //如果设置了签名但是签名为空，则抛异常
-            else if (GetValue("sign") == null || GetValue("sign").ToString() == "")
+            else if( GetValue("sign") == null || GetValue("sign").ToString() == "" )
             {
                 Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
                 throw new WxPayException("WxPayData签名存在但不合法!");
@@ -280,7 +278,7 @@ namespace WxPayAPI
             //在本地计算新的签名
             string cal_sign = MakeSign(signType);
 
-            if (cal_sign == return_sign)
+            if( cal_sign == return_sign )
             {
                 return true;
             }
@@ -310,10 +308,10 @@ namespace WxPayAPI
         }
 
 
-        private  string CalcHMACSHA256Hash(string plaintext, string salt)
+        private string CalcHMACSHA256Hash( string plaintext, string salt )
         {
             string result = "";
-            var enc = Encoding.Default;
+            var enc = Encoding.UTF8;
             byte[]
             baText2BeHashed = enc.GetBytes(plaintext),
             baSalt = enc.GetBytes(salt);
